@@ -15,6 +15,10 @@ class EventController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function __construct()
+    {
+        $this->middleware('auth:sanctum')->except(['index', 'show']);
+    }
     public function index()
     {
         $query = $this->loadRelationships(Event::query());
@@ -61,7 +65,7 @@ class EventController extends Controller
             'end_time' => 'sometimes|date|after:start_time'
         ]);
         $event->update($data);
-       return new EventResource($this->loadRelationships($event));
+        return new EventResource($this->loadRelationships($event));
     }
 
     /**
